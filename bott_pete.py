@@ -101,17 +101,22 @@ def start_cmd(message):
   bot.send_message(message.chat.id, "я запомнив тебяʕ•ᴥ•ʔ!")
 
 
-if __name__ == "__main__":
-  flask_thread = threading.Thread(target=run_flask, daemon=True)
-  flask_thread.start()
-
-  print("Starting bot polling...")
-
+def start_bot():
   try:
     bot.remove_webhook()
   except Exception as e:
     print(f"Webhook reset error: {e}")
 
+  print("Starting bot polling...")
   bot.infinity_polling(skip_pending=True)
+
+
+# 1. Запускаем бота в фоновом потоке сразу при импорте (работает под Gunicorn)
+bot_thread = threading.Thread(target=start_bot, daemon=True)
+bot_thread.start()
+
+# 2. Блок для прямого/локального запуска (через python)
+if __name__ == "__main__":
+  run_flask()
 
 
