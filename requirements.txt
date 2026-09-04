@@ -2,4 +2,4 @@ pyTelegramBotAPI
 python-dotenv
 schedule
 flask 
-pytz
+gunicorn
