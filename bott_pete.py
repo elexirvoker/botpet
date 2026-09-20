@@ -10,7 +10,7 @@ from flask import Flask
 import threading
 
 #запуск енв файла 
-load_dotenv
+load_dotenv()
 #ывеб 
 TOKEN = os.getenv("BOT_TOKEN")
 #сощдается бот мой через токе а токен в енв поэт выше дотов
@@ -64,24 +64,40 @@ def get_all_user_ids():
   return ids
 
 
-pets=["баунтихантер ",
-      "тюлень",
-     " кот-сквиш",
-      "красная панда",
-     "чармандер",
-     " скунс",
-    "зеленый попугай",
-     "хомяк",]
+PETS = {
+    "баунтихантер": "images/bayntixanter.png",
+    "чармандер": "images/cpapmander.jpg",
+    "кот-сквиш": "images/kotskvish.png",
+    "красная панда": "images/pandakras.png",
+    "зеленый попугай": "images/ptatata.png",
+    "скунс": "images/skyns.png",
+    "тюлень": "images/tylen.jpg",
+    "хомяк": "images/xomqkk.png",
+}
 
 
 def send_mes_afternoon():
-    users = get_all_user_ids()
-    message = random.choice(pets)
-    for user in users:
-        try:
-            bot.send_message(user, message)
-        except Exception:
-         pass
+  users = get_all_user_ids()
+  if not users:
+    return
+
+  pet_name = random.choice(list(PETS.keys()))
+  photo_path = PETS[pet_name]
+
+  for user in users:
+    try:
+      if os.path.exists(photo_path):
+        with open(photo_path, "rb") as photo_file:
+          bot.send_photo(
+              chat_id=user,
+              photo=photo_file,
+              caption=f"Твой питомец на сегодня: <b>{pet_name}</b>!",
+              parse_mode="HTML",
+          )
+      else:
+        print(f"Файл {photo_path} не найден!")
+    except Exception as e:
+      print(f"Ошибка отправки пользователю {user}: {e}")
 
 
 schedule.every().day.at("13:00", "Europe/Moscow").do(send_mes_afternoon)
@@ -101,22 +117,16 @@ def start_cmd(message):
   bot.send_message(message.chat.id, "я запомнив тебяʕ•ᴥ•ʔ!")
 
 
-def start_bot():
+if __name__ == "__main__":
+  flask_thread = threading.Thread(target=run_flask, daemon=True)
+  flask_thread.start()
+
+  print("Starting bot polling...")
+
   try:
     bot.remove_webhook()
   except Exception as e:
     print(f"Webhook reset error: {e}")
 
-  print("Starting bot polling...")
   bot.infinity_polling(skip_pending=True)
-
-
-# 1. Запускаем бота в фоновом потоке сразу при импорте (работает под Gunicorn)
-bot_thread = threading.Thread(target=start_bot, daemon=True)
-bot_thread.start()
-
-# 2. Блок для прямого/локального запуска (через python)
-if __name__ == "__main__":
-  run_flask()
-
 
