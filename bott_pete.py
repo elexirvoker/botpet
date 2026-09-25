@@ -117,16 +117,20 @@ def start_cmd(message):
   bot.send_message(message.chat.id, "я запомнив тебяʕ•ᴥ•ʔ!")
 
 
+def run_bot():
+    print("Starting bot polling...")
+    try:
+        bot.remove_webhook()
+    except Exception as e:
+        print(f"Webhook reset error: {e}")
+    bot.infinity_polling(skip_pending=True)
+
 if __name__ == "__main__":
-  flask_thread = threading.Thread(target=run_flask, daemon=True)
-  flask_thread.start()
+    # 1. Бот уходит работать в фоновый поток
+    bot_thread = threading.Thread(target=run_bot, daemon=True)
+    bot_thread.start()
 
-  print("Starting bot polling...")
-
-  try:
-    bot.remove_webhook()
-  except Exception as e:
-    print(f"Webhook reset error: {e}")
-
-  bot.infinity_polling(skip_pending=True)
+    # 2. Flask остается в основном потоке и мгновенно отвечает Render/UptimeRobot
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
