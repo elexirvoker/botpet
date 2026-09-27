@@ -83,7 +83,7 @@ def send_mes_afternoon():
         except Exception as e:
             print(f"Ошибка отправки пользователю {user}: {e}")
 
-schedule.every().day.at("13:00", "Europe/Moscow").do(send_mes_afternoon)
+schedule.every().day.at("13:30", "Europe/Moscow").do(send_mes_afternoon)
 
 def run_scheduler():
     while True:
