@@ -51,12 +51,27 @@ def get_all_user_ids():
 
 PETS = {
     "баунтихантер": "images/bayntixanter.png",
+    "белка": "images/belka.jpg",
+    "сфил": "images/cfiiill.jpg",
     "чармандер": "images/cpapmander.jpg",
+    "фея": "images/fui.jpg",
+    "енот": "images/i.png",
+    "ико": "images/ioko.jpg",
+    "кабан": "images/kaban.png",
+    "кот": "images/kot.png",
     "кот-сквиш": "images/kotskvish.png",
+    "мипо": "images/mipooo.jpg",
+    "некомата": "images/nekomata.jpg",
+    "неритантан": "images/neritantan.jpg",
     "красная панда": "images/pandakras.png",
     "зеленый попугай": "images/ptatata.png",
-    "скунс": "images/skyns.png",
+    "сатир": "images/satyr.png",
+    "скунс🦨": "images/skyns.png",
+    "тибетская лиса🦊": "images/tibetlisa.png",
     "тюлень": "images/tylen.jpg",
+    "кошкодев^w^": "images/tyuncat.png",
+    "воул-убийца": "images/wolf.png",
+    "химера": "images/ximeraa.jpg",
     "хомяк": "images/xomqkk.png",
 }
 
@@ -75,7 +90,7 @@ def send_mes_afternoon():
                     bot.send_photo(
                         chat_id=user,
                         photo=photo_file,
-                        caption=f"Твой питомец на сегодня: <b>{pet_name}</b>!",
+                        caption=f"твой питомка: <b>{pet_name}</b>!",
                         parse_mode="HTML",
                     )
             else:
