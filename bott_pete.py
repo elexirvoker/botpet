@@ -73,7 +73,15 @@ PETS = {
     "воул-убийца": "images/wolf.png",
     "химера": "images/ximeraa.jpg",
     "хомяк": "images/xomqkk.png",
-}
+    "трубковоз":"images/trubkozub",
+    "полосатый ктото":"images/poloca",
+    "гинета":"images/geneta",
+    "морской единорог":"images/narval",
+    "писец":"images/picec",
+    "тупайя":"images/typa",
+    "рыба🌑":"images/paba",
+  
+  }
 
 def send_mes_afternoon():
     users = get_all_user_ids()
